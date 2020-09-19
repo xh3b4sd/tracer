@@ -1,0 +1,10 @@
+{
+	"anno": "test error one",
+	"stck": [
+		{
+			"file": "--REPLACED--/json_test.go",
+			"line": 60
+		}
+	],
+	"type": "*errors.errorString"
+}
