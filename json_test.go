@@ -6,9 +6,10 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"path/filepath"
-	"regexp"
 	"strconv"
+	"strings"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -26,8 +27,9 @@ var update = flag.Bool("update", false, "update .golden files")
 //
 func Test_Tracer_JSON(t *testing.T) {
 	var (
-		testErrorOne = fmt.Errorf("test error one")
-		testErrorTwo = &Error{Kind: "testErrorTwo"}
+		testErrorOne   = fmt.Errorf("test error one")
+		testErrorTwo   = &Error{Kind: "testErrorTwo"}
+		testErrorThree = fmt.Errorf("executing \".github/dependabot.yaml\"")
 	)
 
 	testCases := []struct {
@@ -112,6 +114,32 @@ func Test_Tracer_JSON(t *testing.T) {
 				return err
 			},
 		},
+		// Case 9 does not use error wrapping. The error is simply made up by
+		// fmt.Errorf. The error message contains escaped double quotes.
+		{
+			errFunc: func() error {
+				return testErrorThree
+			},
+		},
+		// Case 10 does error wrapping one time. The error is simply made up by
+		// fmt.Errorf. The error message contains escaped double quotes.
+		{
+			errFunc: func() error {
+				return Mask(testErrorThree)
+			},
+		},
+		// Case 11 does error wrapping two times. The error is simply made up by
+		// fmt.Errorf. The error message contains escaped double quotes.
+		{
+			errFunc: func() error {
+				var err error
+
+				err = Mask(testErrorThree)
+				err = Mask(err)
+
+				return err
+			},
+		},
 	}
 
 	for i, tc := range testCases {
@@ -124,11 +152,14 @@ func Test_Tracer_JSON(t *testing.T) {
 			// testdata folder for specific examples.
 			var actual []byte
 			{
-				r := regexp.MustCompile(`"file":"([/\S][^,]*)(/[\S][^/]*\.go)"`)
-				s = r.ReplaceAllString(s, "\"file\":\"--REPLACED--$2\"")
+				p, err := os.Getwd()
+				if err != nil {
+					t.Fatal(err)
+				}
+				s = strings.ReplaceAll(s, p, "--REPLACED--")
 
 				b := &bytes.Buffer{}
-				err := json.Indent(b, []byte(s), "", "\t")
+				err = json.Indent(b, []byte(s), "", "\t")
 				if err != nil {
 					t.Fatal(err)
 				}

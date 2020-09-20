@@ -1,10 +1,7 @@
 {
 	"kind": "testErrorTwo",
 	"stck": [
-		{
-			"file": "--REPLACED--/json_test.go",
-			"line": 67
-		}
+		"--REPLACED--/json_test.go:69"
 	],
 	"type": "*tracer.Error"
 }

@@ -3,6 +3,7 @@ package tracer
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -14,14 +15,11 @@ func JSON(err error) string {
 
 	// If the given error is our Error type we can simply serialize a JSON
 	// string based on it.
-	e, ok := err.(*Error)
-	if ok {
-		b, err := json.Marshal(e)
-		if err != nil {
-			panic(err.Error())
+	{
+		e, ok := err.(*Error)
+		if ok {
+			return mustJSONMarshal(e)
 		}
-
-		return string(b)
 	}
 
 	// If the given error is some arbitary error type we simply return an
@@ -32,13 +30,12 @@ func JSON(err error) string {
 			Type: fmt.Sprintf("%T", err),
 		}
 
-		b, err := json.Marshal(e)
-		if err != nil {
-			panic(err.Error())
-		}
-
-		return string(b)
+		return mustJSONMarshal(e)
 	}
+}
+
+func escape(s string) string {
+	return strconv.Quote(s)
 }
 
 func jsonError(e *Error) string {
@@ -51,9 +48,7 @@ func jsonError(e *Error) string {
 		s += "anno"
 		s += "\""
 		s += ":"
-		s += "\""
-		s += e.Anno
-		s += "\""
+		s += escape(e.Anno)
 	}
 
 	if e.Desc != "" {
@@ -65,9 +60,7 @@ func jsonError(e *Error) string {
 		s += "desc"
 		s += "\""
 		s += ":"
-		s += "\""
-		s += e.Desc
-		s += "\""
+		s += escape(e.Desc)
 	}
 
 	if e.Docs != "" {
@@ -79,9 +72,7 @@ func jsonError(e *Error) string {
 		s += "docs"
 		s += "\""
 		s += ":"
-		s += "\""
-		s += e.Docs
-		s += "\""
+		s += escape(e.Docs)
 	}
 
 	if e.Kind != "" {
@@ -93,9 +84,7 @@ func jsonError(e *Error) string {
 		s += "kind"
 		s += "\""
 		s += ":"
-		s += "\""
-		s += e.Kind
-		s += "\""
+		s += escape(e.Kind)
 	}
 
 	// Note that all struct properties like anno, desc and type are strings,
@@ -123,9 +112,7 @@ func jsonError(e *Error) string {
 		s += "type"
 		s += "\""
 		s += ":"
-		s += "\""
-		s += e.Type
-		s += "\""
+		s += escape(e.Type)
 	}
 
 	s += "}"
@@ -146,21 +133,11 @@ func jsonStck(stck string) string {
 	for i, f := range frames {
 		c := strings.Split(f, ":")
 
-		s += "{"
-		s += "\""
-		s += "file"
-		s += "\""
-		s += ":"
 		s += "\""
 		s += c[0]
-		s += "\""
-		s += ","
-		s += "\""
-		s += "line"
-		s += "\""
 		s += ":"
 		s += c[1]
-		s += "}"
+		s += "\""
 
 		if i+1 < len(frames) {
 			s += ", "
@@ -169,4 +146,13 @@ func jsonStck(stck string) string {
 	s += "]"
 
 	return s
+}
+
+func mustJSONMarshal(v interface{}) string {
+	b, err := json.Marshal(v)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	return string(b)
 }

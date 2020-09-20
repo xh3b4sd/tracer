@@ -1,0 +1,7 @@
+{
+	"anno": "executing \".github/dependabot.yaml\"",
+	"stck": [
+		"--REPLACED--/json_test.go:128"
+	],
+	"type": "*errors.errorString"
+}

@@ -1,14 +1,8 @@
 {
 	"anno": "test error one",
 	"stck": [
-		{
-			"file": "--REPLACED--/json_test.go",
-			"line": 76
-		},
-		{
-			"file": "--REPLACED--/json_test.go",
-			"line": 77
-		}
+		"--REPLACED--/json_test.go:78",
+		"--REPLACED--/json_test.go:79"
 	],
 	"type": "*errors.errorString"
 }

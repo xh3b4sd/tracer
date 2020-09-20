@@ -11,8 +11,9 @@ import (
 
 func Test_Tracer_Error_Error(t *testing.T) {
 	var (
-		testErrorOne = fmt.Errorf("test error one")
-		testErrorTwo = &Error{Kind: "testErrorTwo"}
+		testErrorOne   = fmt.Errorf("test error one")
+		testErrorTwo   = &Error{Kind: "testErrorTwo"}
+		testErrorThree = fmt.Errorf("executing \".github/dependabot.yaml\"")
 	)
 
 	testCases := []struct {
@@ -99,6 +100,35 @@ func Test_Tracer_Error_Error(t *testing.T) {
 				return err
 			},
 			message: "annotation",
+		},
+		// Case 8 does not use error wrapping. The error is simply made up by
+		// fmt.Errorf. The error message contains escaped double quotes.
+		{
+			errFunc: func() error {
+				return testErrorThree
+			},
+			message: "executing \".github/dependabot.yaml\"",
+		},
+		// Case 9 does error wrapping one time. The error is simply made up by
+		// fmt.Errorf. The error message contains escaped double quotes.
+		{
+			errFunc: func() error {
+				return Mask(testErrorThree)
+			},
+			message: "executing \".github/dependabot.yaml\"",
+		},
+		// Case 10 does error wrapping two times. The error is simply made up by
+		// fmt.Errorf. The error message contains escaped double quotes.
+		{
+			errFunc: func() error {
+				var err error
+
+				err = Mask(testErrorThree)
+				err = Mask(err)
+
+				return err
+			},
+			message: "executing \".github/dependabot.yaml\"",
 		},
 	}
 
