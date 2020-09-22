@@ -81,14 +81,8 @@ Use `tracer.JSON(err)` to get the JSON repesentation of an error of type
 	"anno": "some useful annotation",
 	"kind": "testError",
 	"stck": [
-		{
-			"file": "--REPLACED--/json_test.go",
-			"line": 109
-		},
-		{
-			"file": "--REPLACED--/json_test.go",
-			"line": 110
-		}
+		"--REPLACED--/json_test.go:111",
+		"--REPLACED--/json_test.go:112"
 	],
 	"type": "*tracer.Error"
 }
