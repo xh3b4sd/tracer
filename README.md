@@ -57,16 +57,10 @@ Below is a **bad** example to illustrate how not to do error handling.
 return err
 ```
 
----
-
 Below is a **good** example to illustrate how to do error handling.
 
 ```golang
 return tracer.Mask(err)
-```
-
-```golang
-return tracer.Maskf(testError, "some useful annotation")
 ```
 
 
@@ -85,5 +79,18 @@ Use `tracer.JSON(err)` to get the JSON repesentation of an error of type
 		"--REPLACED--/json_test.go:112"
 	],
 	"type": "*tracer.Error"
+}
+```
+
+Use `tracer.Panic(err)` in program entry points of command line tools in order
+to conveniently produce consistent error messages upon unexpected program
+failure.
+
+```golang
+func main() {
+    err := mainE(context.Background())
+    if err != nil {
+        tracer.Panic(err)
+    }
 }
 ```
