@@ -1,0 +1,7 @@
+{
+	"anno": "test error one",
+	"stck": [
+		"--REPLACED--/error_test.go:307",
+		"--REPLACED--/error_test.go:308"
+	]
+}

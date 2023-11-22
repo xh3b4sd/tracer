@@ -1,0 +1,7 @@
+{
+	"anno": "executing \".github/dependabot.yaml\"",
+	"stck": [
+		"--REPLACED--/error_test.go:366",
+		"--REPLACED--/error_test.go:367"
+	]
+}

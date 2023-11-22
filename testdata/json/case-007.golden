@@ -1,0 +1,7 @@
+{
+	"anno": "annotation",
+	"kind": "testErrorTwo",
+	"stck": [
+		"--REPLACED--/error_test.go:330"
+	]
+}

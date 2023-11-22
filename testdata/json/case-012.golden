@@ -1,0 +1,8 @@
+{
+	"code": "invalidArgument",
+	"kind": "alreadyExistsError",
+	"stck": [
+		"--REPLACED--/error_test.go:377",
+		"--REPLACED--/error_test.go:378"
+	]
+}
