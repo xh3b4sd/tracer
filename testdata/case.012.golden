@@ -1,0 +1,13 @@
+{
+	"context": [
+		{
+			"key": "code",
+			"val": "invalidArgument"
+		}
+	],
+	"description": "alreadyExistsError",
+	"trace": [
+		"--REPLACED--/json_test.go:192",
+		"--REPLACED--/json_test.go:194"
+	]
+}

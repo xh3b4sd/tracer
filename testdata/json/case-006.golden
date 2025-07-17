@@ -1,7 +1,0 @@
-{
-	"kind": "testErrorTwo",
-	"stck": [
-		"--REPLACED--/error_test.go:319",
-		"--REPLACED--/error_test.go:320"
-	]
-}

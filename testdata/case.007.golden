@@ -1,0 +1,12 @@
+{
+	"context": [
+		{
+			"key": "annotation",
+			"val": "foo bar"
+		}
+	],
+	"description": "test error two description",
+	"trace": [
+		"--REPLACED--/json_test.go:122"
+	]
+}

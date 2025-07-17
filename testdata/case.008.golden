@@ -1,0 +1,21 @@
+{
+	"context": [
+		{
+			"key": "annotation",
+			"val": "foo bar"
+		},
+		{
+			"key": "something",
+			"val": "one two"
+		},
+		{
+			"key": "annotation",
+			"val": "567 xyz"
+		}
+	],
+	"description": "test error two description",
+	"trace": [
+		"--REPLACED--/json_test.go:135",
+		"--REPLACED--/json_test.go:140"
+	]
+}

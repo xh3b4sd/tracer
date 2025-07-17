@@ -1,7 +1,6 @@
 package tracer
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -10,48 +9,57 @@ import (
 
 // Panic is meant to be used in user facing applications like command line
 // tools. Such applications usually propagate back runtime errors. In order to
-// make error handling for these specific cases most convenient Panic might
-// simply be called. The program entry point might be as simple as the following
-// snippet.
+// make error handling for these specific cases most convenient, Panic might
+// simply be called like shown below. The program entry point might be as simple
+// as the following snippet.
 //
 //	func main() {
-//	    err := mainE(context.Background())
+//	    err := mainE()
 //	    if err != nil {
 //	        tracer.Panic(tracer.Mask(err))
 //	    }
 //	}
 //
 // The code snippet of the program entry point above might produce an output
-// like below.
+// similar to the example below.
 //
-//	program panic at 2022-06-10 18:37:41.90837 +0000 UTC
+//	program panic at 2025-07-17 19:22:58.39201 +0000 UTC
 //
 //	    {
-//	        "anno": "rpc error: code = Unavailable desc = connection error: desc = \"transport: Error while dialing dial tcp :7777: connect: connection refused\"",
-//	        "stck": [
-//	            "--REPLACED--/main.go:59",
-//	            "--REPLACED--/main.go:23"
+//	        "context": [
+//	            {
+//	                "key": "code",
+//	                "val": "alreadyExistsError"
+//	            }
+//	        ],
+//	        "description": "that thing does already exist because of xyz",
+//	        "trace": [
+//	            "--REPLACED--/main.go:24",
+//	            "--REPLACED--/main.go:25",
+//	            "--REPLACED--/main.go:19"
 //	        ]
 //	    }
 //
 //	exit status 1
 func Panic(err error) {
-	_, ok := err.(*Error)
+	t, ok := err.(*Error)
 	if !ok {
 		panic(err)
 	}
 
 	fmt.Printf("program panic at %s\n", time.Now().UTC().String())
 	fmt.Println()
+	fmt.Println("    " + string(musJsn(t)))
+	fmt.Println()
 
-	b := &bytes.Buffer{}
-	err = json.Indent(b, []byte(mustJson(err)), "    ", "    ")
+	os.Exit(1)
+}
+
+func musJsn(v any) []byte {
+	jsn, err := json.MarshalIndent(v, "    ", "    ")
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println("    " + b.String())
-	fmt.Println()
-
-	os.Exit(1)
+	return jsn
 }

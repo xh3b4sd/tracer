@@ -1,0 +1,7 @@
+{
+	"description": "executing \".github/dependabot.yaml\"",
+	"trace": [
+		"--REPLACED--/json_test.go:179",
+		"--REPLACED--/json_test.go:180"
+	]
+}
