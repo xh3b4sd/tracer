@@ -2,7 +2,7 @@
 	"context": [
 		{
 			"key": "annotation",
-			"val": "foo bar"
+			"value": "foo bar"
 		}
 	],
 	"description": "test error two description",

@@ -12,7 +12,7 @@ import (
 //	  "context": [
 //	    {
 //	      "key": "re-source",
-//	      "val": "id"
+//	      "value": "id"
 //	    }
 //	  ],
 //	  "description": "test error two description",
@@ -30,7 +30,7 @@ func Json(err error) string {
 	if !o {
 		t = &Error{
 			Context: []Context{
-				{Key: "type", Val: fmt.Sprintf("%T", err)},
+				{Key: "type", Value: fmt.Sprintf("%T", err)},
 			},
 			Description: err.Error(),
 		}

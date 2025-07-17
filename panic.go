@@ -29,7 +29,7 @@ import (
 //	        "context": [
 //	            {
 //	                "key": "code",
-//	                "val": "alreadyExistsError"
+//	                "value": "alreadyExistsError"
 //	            }
 //	        ],
 //	        "description": "that thing does already exist because of xyz",

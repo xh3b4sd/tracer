@@ -2,15 +2,15 @@
 	"context": [
 		{
 			"key": "annotation",
-			"val": "foo bar"
+			"value": "foo bar"
 		},
 		{
 			"key": "something",
-			"val": "one two"
+			"value": "one two"
 		},
 		{
 			"key": "annotation",
-			"val": "567 xyz"
+			"value": "567 xyz"
 		}
 	],
 	"description": "test error two description",

@@ -34,7 +34,7 @@ func Test_Tracer_Json_String(t *testing.T) {
 		testErrorTwo       = &Error{Description: "test error two description"}
 		testErrorThree     = fmt.Errorf("executing \".github/dependabot.yaml\"")
 		testErrorFour      = &Error{}
-		alreadyExistsError = &Error{Description: "alreadyExistsError", Context: []Context{{Key: "code", Val: "invalidArgument"}}}
+		alreadyExistsError = &Error{Description: "alreadyExistsError", Context: []Context{{Key: "code", Value: "invalidArgument"}}}
 	)
 
 	testCases := []struct {
@@ -119,7 +119,7 @@ func Test_Tracer_Json_String(t *testing.T) {
 			err: func() error {
 				var err error // nolint:gosimple
 
-				err = Mask(testErrorTwo, Context{Key: "annotation", Val: "foo bar"})
+				err = Mask(testErrorTwo, Context{Key: "annotation", Value: "foo bar"})
 
 				return err
 			}(),
@@ -133,9 +133,9 @@ func Test_Tracer_Json_String(t *testing.T) {
 				var err error
 
 				err = Mask(testErrorTwo,
-					Context{Key: "annotation", Val: "foo bar"},
-					Context{Key: "something", Val: "one two"},
-					Context{Key: "annotation", Val: "567 xyz"},
+					Context{Key: "annotation", Value: "foo bar"},
+					Context{Key: "something", Value: "one two"},
+					Context{Key: "annotation", Value: "567 xyz"},
 				)
 				err = Mask(err)
 
@@ -206,9 +206,9 @@ func Test_Tracer_Json_String(t *testing.T) {
 
 				err = Mask(err)
 				err = Mask(err) // nolint:staticcheck,ineffassign
-				err = Mask(testErrorTwo, Context{Key: "re-source", Val: "id"})
+				err = Mask(testErrorTwo, Context{Key: "re-source", Value: "id"})
 				err = Mask(err)
-				err = Mask(err, Context{Key: "more", Val: "info"})
+				err = Mask(err, Context{Key: "more", Value: "info"})
 				err = Mask(err)
 
 				return err

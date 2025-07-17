@@ -72,14 +72,14 @@ should typically represent the root cause.
   "context": [
     {
       "key": "resource",
-      "val": "identifier"
+      "value": "identifier"
     }
   ],
   "description": "some useful error description",
-	"trace": [
-		"--REPLACED--/error_test.go:119",
-		"--REPLACED--/error_test.go:124"
-	]
+  "trace": [
+    "--REPLACED--/error_test.go:119",
+    "--REPLACED--/error_test.go:124"
+  ]
 }
 ```
 
@@ -125,7 +125,7 @@ program panic at 2025-07-17 19:22:58.39201 +0000 UTC
         "context": [
             {
                 "key": "code",
-                "val": "alreadyExistsError"
+                "value": "alreadyExistsError"
             }
         ],
         "description": "that thing does already exist because of xyz",

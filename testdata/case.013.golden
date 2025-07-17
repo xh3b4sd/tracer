@@ -2,11 +2,11 @@
 	"context": [
 		{
 			"key": "re-source",
-			"val": "id"
+			"value": "id"
 		},
 		{
 			"key": "more",
-			"val": "info"
+			"value": "info"
 		}
 	],
 	"description": "test error two description",

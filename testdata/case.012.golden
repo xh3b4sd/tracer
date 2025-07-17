@@ -2,7 +2,7 @@
 	"context": [
 		{
 			"key": "code",
-			"val": "invalidArgument"
+			"value": "invalidArgument"
 		}
 	],
 	"description": "alreadyExistsError",
