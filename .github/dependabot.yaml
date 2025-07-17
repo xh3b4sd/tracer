@@ -2,20 +2,18 @@
 # Do not edit. This file was generated via the "workflow" command line tool.
 # More information about the tool can be found at github.com/xh3b4sd/workflow.
 #
-#     workflow create dependabot -b master -r xh3b4sd
+#     workflow create dependabot -b master -r @xh3b4sd
 #
 
 version: 2
-updates:
 
+updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch"]
     open-pull-requests-limit: 10
-    reviewers:
-      - "xh3b4sd"
     schedule:
       interval: "daily"
       time: "04:00"
@@ -27,8 +25,6 @@ updates:
       - dependency-name: "*"
         update-types: ["version-update:semver-patch"]
     open-pull-requests-limit: 10
-    reviewers:
-      - "xh3b4sd"
     schedule:
       interval: "daily"
       time: "04:00"

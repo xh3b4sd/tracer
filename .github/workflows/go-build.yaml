@@ -13,20 +13,25 @@ jobs:
   go-build:
     runs-on: "ubuntu-latest"
     steps:
-
       - name: "Setup Git Project"
         uses: "actions/checkout@v4"
 
       - name: "Setup Go Env"
-        uses: "actions/setup-go@v4"
+        uses: "actions/setup-go@v5"
         with:
           cache: true
-          go-version: "1.21.1"
+          go-version: "1.24.0"
 
       - name: "Check Go Dependencies"
         run: |
           go mod tidy
           git diff --exit-code
+
+      - name: "Run Go Build"
+        env:
+          CGO_ENABLED: "0"
+        run: |
+          go build .
 
       - name: "Check Go Tests"
         run: |
@@ -38,6 +43,6 @@ jobs:
 
       - name: "Check Go Linters"
         run: |
-          curl -LOs https://github.com/golangci/golangci-lint/releases/download/v1.54.2/golangci-lint-1.54.2-linux-amd64.tar.gz
-          tar -xzf golangci-lint-1.54.2-linux-amd64.tar.gz
-          ./golangci-lint-1.54.2-linux-amd64/golangci-lint run
+          curl -LOs https://github.com/golangci/golangci-lint/releases/download/v1.64.5/golangci-lint-1.64.5-linux-amd64.tar.gz
+          tar -xzf golangci-lint-1.64.5-linux-amd64.tar.gz
+          ./golangci-lint-1.64.5-linux-amd64/golangci-lint run

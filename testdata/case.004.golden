@@ -1,0 +1,6 @@
+{
+	"description": "test error two description",
+	"trace": [
+		"--REPLACED--/json_test.go:82"
+	]
+}

@@ -1,0 +1,19 @@
+{
+	"context": [
+		{
+			"key": "re-source",
+			"value": "id"
+		},
+		{
+			"key": "more",
+			"value": "info"
+		}
+	],
+	"description": "test error two description",
+	"trace": [
+		"--REPLACED--/json_test.go:209",
+		"--REPLACED--/json_test.go:210",
+		"--REPLACED--/json_test.go:211",
+		"--REPLACED--/json_test.go:212"
+	]
+}

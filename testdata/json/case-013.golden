@@ -1,9 +1,0 @@
-{
-	"anno": "re-source-id",
-	"code": "invalidArgument",
-	"kind": "alreadyExistsError",
-	"stck": [
-		"--REPLACED--/error_test.go:388",
-		"--REPLACED--/error_test.go:389"
-	]
-}

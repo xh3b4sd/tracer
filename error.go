@@ -1,58 +1,61 @@
 package tracer
 
-import (
-	"encoding/json"
-	"strings"
-)
+import "encoding/json"
 
+// Error provides a traceable error instance that can be annotated with
+// arbitrary contextual information along the error handling path.
 type Error struct {
-	Anno string   `json:"anno,omitempty"`
-	Code string   `json:"code,omitempty"`
-	Desc string   `json:"desc,omitempty"`
-	Docs string   `json:"docs,omitempty"`
-	Kind string   `json:"kind,omitempty"`
-	Stck []string `json:"stck,omitempty"`
-	Wrpd error    `json:"-"`
+	Context     []Context
+	Description string
+
+	cause error
+	trace []string
 }
 
+// Copy creates a runtime copy of the underlying *Error{} instance.
 func (e *Error) Copy() *Error {
-	c := &Error{
-		Anno: e.Anno,
-		Code: e.Code,
-		Desc: e.Desc,
-		Docs: e.Docs,
-		Kind: e.Kind,
-		Stck: e.Stck,
-		Wrpd: e.Wrpd,
-	}
+	return &Error{
+		Context:     append([]Context{}, e.Context...),
+		Description: e.Description,
 
-	return c
+		cause: e.cause,
+		trace: append([]string{}, e.trace...),
+	}
 }
 
+// Error returns the error's description or "ERROR".
 func (e *Error) Error() string {
-	if e.Kind == "" && e.Anno != "" {
-		return e.Anno
+	if e.Description != "" {
+		return e.Description
 	}
 
-	kind := toStringCase(e.Kind)
-
-	if e.Kind != "" && e.Anno == "" {
-		return kind
-	}
-
-	return strings.TrimSuffix(kind, " error") + ": " + e.Anno
-}
-
-func (e *Error) GoString() string {
-	return mustJson(e)
+	return "ERROR"
 }
 
 func (e *Error) Is(x error) bool {
 	return cause(e) == cause(x)
 }
 
+// MarshalJSON returns the JSON representation of a non nil *Error type, or {}.
+func (e *Error) MarshalJSON() ([]byte, error) {
+	if e == nil {
+		return []byte("{}"), nil
+	}
+
+	return json.Marshal(struct {
+		Context     []Context `json:"context,omitempty"`
+		Description string    `json:"description,omitempty"`
+		Trace       []string  `json:"trace,omitempty"`
+	}{
+		Context:     e.Context,
+		Description: e.Error(),
+		Trace:       e.trace,
+	})
+}
+
+// Unwrap returns the error's root cause. That is the first masked error.
 func (e *Error) Unwrap() error {
-	return e.Wrpd
+	return e.cause
 }
 
 func cause(err error) error {
@@ -61,20 +64,9 @@ func cause(err error) error {
 	}
 
 	e, ok := err.(*Error)
-	if ok {
-		if e.Wrpd != nil {
-			return e.Wrpd
-		}
+	if ok && e.cause != nil {
+		return e.cause
 	}
 
 	return err
-}
-
-func mustJson(v interface{}) string {
-	b, err := json.Marshal(v)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	return string(b)
 }

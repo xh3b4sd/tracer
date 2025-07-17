@@ -1,0 +1,9 @@
+{
+	"context": [
+		{
+			"key": "type",
+			"value": "*errors.errorString"
+		}
+	],
+	"description": "test error one message"
+}
